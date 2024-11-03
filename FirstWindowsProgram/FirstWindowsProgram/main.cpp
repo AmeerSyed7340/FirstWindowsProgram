@@ -4,34 +4,40 @@
 
 #include <windows.h>
 
-//forward decalaration for the long point window procedure function
-LRESULT CALLBACK WiNDPROC(HWND hwnd, UINT uint, WPARAM wparam, LPARAM lparam);
+LRESULT CALLBACK WinProc(HWND hwnd, UINT uMSG, WPARAM wParam, LPARAM lParam);
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE pInstance, PWSTR pCmdLine , int nCmdShow) {
 
-	//Register the window class
-	const wchar_t CLASS_NAME[] = L"This window name is prepended with an L";
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE pInstance, PWSTR pCmdLine, int nCmdShow) {
+	
+	//Set the class name
+	const wchar_t CLASS_NAME[] = L"Class Name";
 
-	//create a window class object
+	//0 or NULL initialize the window class
 	WNDCLASS wc = {};
 
-	//long pointer window procesdure function (fn). bc this takes a function
-	wc.lpfnWndProc = WiNDPROC;
+	//Set the window procedure function 
+	wc.lpfnWndProc = WinProc;
 
-	//handle isntance
+	//set the handle instace
 	wc.hInstance = hInstance;
 
-	//long pointer to string zeroed out-adds a null character at the end of the string
+	//Set the class name
 	wc.lpszClassName = CLASS_NAME;
 
-	//Lets add a handle background color
-	wc.hbrBackground; //Give it a little bit of personality
-
+	//Register the window class 
 	RegisterClass(&wc);
 
-	return 0;
-}//wWinMain
+	//Create the window now
+	HWND hwnd = CreateWindowEx(0, CLASS_NAME, L"Window Name", WS_BORDER, 0, 0, 200, 200, NULL, NULL, hInstance, NULL);
 
-LRESULT CALLBACK WiNDPROC(HWND hwnd, UINT uint, WPARAM wparam, LPARAM lparam) {
+	//check if this window handle is created
+	if (hwnd == NULL) {
+		return 0;
+	}
 
+
+}
+
+LRESULT CALLBACK WinProc(HWND hwnd, UINT uMSG, WPARAM wParam, LPARAM lParam) {
+	
 }
