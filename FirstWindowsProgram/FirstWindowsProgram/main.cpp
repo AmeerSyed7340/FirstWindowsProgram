@@ -35,7 +35,26 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE pInstance, PWSTR pCmdLine, in
 		return 0;
 	}
 
+	//make the window visibale. ie; show the window
+	ShowWindow(hwnd, nCmdShow);
 
+
+	//Events have to be responded to by GUI
+	//These events that are either from users or the OS are stored
+	//in a message queue.
+
+	//Create the variable of type MSG to hold info of the event
+	MSG msg = {};
+
+	//GetMessage takes the first message from the head of the queue and stores it 
+	//in the msg variable and
+	//as long as there are messages in the queue this loop will run. The loop exists only to pull
+	//the messages from the queue and dispatch them
+	while (GetMessage(&msg, NULL, 0, 0) > 0) {
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	return 0;
 }
 
 LRESULT CALLBACK WinProc(HWND hwnd, UINT uMSG, WPARAM wParam, LPARAM lParam) {
