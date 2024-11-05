@@ -4,7 +4,7 @@
 
 #include <windows.h>
 
-LRESULT CALLBACK WinProc(HWND hwnd, UINT uMSG, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WindwProc(HWND hwnd, UINT uMSG, WPARAM wParam, LPARAM lParam);
 
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE pInstance, PWSTR pCmdLine, int nCmdShow) {
@@ -16,7 +16,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE pInstance, PWSTR pCmdLine, in
 	WNDCLASS wc = {};
 
 	//Set the window procedure function 
-	wc.lpfnWndProc = WinProc;
+	wc.lpfnWndProc = WindwProc;
 
 	//set the handle instace
 	wc.hInstance = hInstance;
@@ -57,6 +57,29 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE pInstance, PWSTR pCmdLine, in
 	return 0;
 }
 
-LRESULT CALLBACK WinProc(HWND hwnd, UINT uMSG, WPARAM wParam, LPARAM lParam) {
+//Write the Window Procedure - a large switch case for the message code uMSG.
+//This is called switch_on. So it switches on the message code.
+LRESULT CALLBACK WindwProc(HWND hwnd, UINT uMSG, WPARAM wParam, LPARAM lParam) {
+	switch (uMSG)
+	{
+	case WM_DESTROY: {
+		PostQuitMessage(0);
+		return 0;
+	}
+	case WM_PAINT: {
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hwnd, &ps);
+
+		//All painting occurs here, between BeginPaint and EndPaint
+
+		//
+		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+
+		//A bool type
+		EndPaint(hwnd, &ps);
+	}
+				 return 0;
 	
+	}
+	return DefWindowProc(hwnd, uMSG, wParam, lParam);
 }
